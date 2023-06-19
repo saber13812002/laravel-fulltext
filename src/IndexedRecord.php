@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class IndexedRecord extends Model
 {
     protected $table = 'laravel_fulltext';
+    private string $analyzer = "persian";
 
     public function __construct(array $attributes = [])
     {
@@ -58,47 +59,26 @@ class IndexedRecord extends Model
         $Sokun = 'ْ';
         $HamzeJoda = 'ء';
         $KhateTire = 'ـ';
+
+
+        $remove = array('ِ', 'ُ', 'ٓ', 'ٰ', 'ْ', 'ٌ', 'ٍ', 'ً', 'ّ', 'َ', $KhateTire, $TATWEEL,
+            $FATHATAN, $DAMMATAN, $KASRATAN, $FATHA, $DAMMA, $KASRA,
+            $SHADDA, $SUKUN, $Fathe, $Zamme, $Kasre, $TanvinFathe, $TanvinZamme,
+            $TanvinKasre, $Tashdid, $Sokun, $HamzeJoda);
+
+        $phrase = str_replace($remove, '', $phrase);
+
         $YehArabic = 'ی';
         $YehPersian = 'ي';
         $KafArabic = 'ک';
         $KafPersian = 'ك';
-        $normalizedPhrase = "";
 
-        for ($i = 0; $i < str_len($phrase); $i++) {
-            $skip = false;
-            switch ($phrase[i]) {
-                case $TATWEEL:
-                case $KASRATAN:
-                case $DAMMATAN:
-                case $FATHATAN:
-                case $FATHA:
-                case $DAMMA:
-                case $KASRA:
-                case $SHADDA:
-                case $SUKUN:
-                case $Fathe:
-                case $Zamme:
-                case $Kasre:
-                case $TanvinFathe:
-                case $TanvinZamme:
-                case $TanvinKasre:
-                case $Tashdid:
-                case $Sokun:
-                case $HamzeJoda:
-                case $KhateTire:
-                    $skip = true;
-                default:
-                    if (!$skip) {
-                        $normalizedPhrase .= $phrase[i];
-                    } elseif ($phrase[i] == $YehArabic) {
-                        $normalizedPhrase .= $YehPersian;
-                    } elseif ($phrase[i] == $KafArabic) {
-                        $normalizedPhrase .= $KafPersian;
-                    }
-                    break;
-            }
-        }
+        $replace = array($YehArabic);
+        $phrase = str_replace($replace, $YehPersian, $phrase);
 
-        return $normalizedPhrase;
+        $replace = array($KafArabic);
+        $phrase = str_replace($replace, $KafPersian, $phrase);
+
+        return $phrase;
     }
 }
