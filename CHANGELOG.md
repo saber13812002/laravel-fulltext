@@ -70,7 +70,7 @@ The column name for that property (which acts as a flag). This must match the ex
 
 ### Changed
 
-* Changed namespace from `Swis\LaravelFulltext` to `Swis\Laravel\Fulltext`.
+* Changed namespace from `Saber13812002\LaravelFulltext` to `Saber13812002\Laravel\Fulltext`.
 
 ## [0.16.0] - 2019-03-20
 

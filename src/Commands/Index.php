@@ -1,9 +1,9 @@
 <?php
 
-namespace Swis\Laravel\Fulltext\Commands;
+namespace Saber13812002\Laravel\Fulltext\Commands;
 
 use Illuminate\Console\Command;
-use Swis\Laravel\Fulltext\Indexer;
+use Saber13812002\Laravel\Fulltext\Indexer;
 
 class Index extends Command
 {

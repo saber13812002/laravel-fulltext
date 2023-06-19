@@ -1,13 +1,13 @@
 <?php
 
-namespace Swis\Laravel\Fulltext;
+namespace Saber13812002\Laravel\Fulltext;
 
 class Search implements SearchInterface
 {
     /**
      * @param string $search
      *
-     * @return \Illuminate\Database\Eloquent\Collection|\Swis\Laravel\Fulltext\IndexedRecord[]
+     * @return \Illuminate\Database\Eloquent\Collection|\Saber13812002\Laravel\Fulltext\IndexedRecord[]
      */
     public function run($search)
     {
@@ -20,7 +20,7 @@ class Search implements SearchInterface
      * @param string $search
      * @param string $class
      *
-     * @return \Illuminate\Database\Eloquent\Collection|\Swis\Laravel\Fulltext\IndexedRecord[]
+     * @return \Illuminate\Database\Eloquent\Collection|\Saber13812002\Laravel\Fulltext\IndexedRecord[]
      */
     public function runForClass($search, $class)
     {

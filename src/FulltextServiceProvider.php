@@ -1,11 +1,11 @@
 <?php
 
-namespace Swis\Laravel\Fulltext;
+namespace Saber13812002\Laravel\Fulltext;
 
 use Illuminate\Support\ServiceProvider;
-use Swis\Laravel\Fulltext\Commands\Index;
-use Swis\Laravel\Fulltext\Commands\IndexOne;
-use Swis\Laravel\Fulltext\Commands\UnindexOne;
+use Saber13812002\Laravel\Fulltext\Commands\Index;
+use Saber13812002\Laravel\Fulltext\Commands\IndexOne;
+use Saber13812002\Laravel\Fulltext\Commands\UnindexOne;
 
 class FulltextServiceProvider extends ServiceProvider
 {

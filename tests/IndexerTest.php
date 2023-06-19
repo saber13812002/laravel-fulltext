@@ -1,9 +1,9 @@
 <?php
 
-namespace Swis\Laravel\Fulltext\Tests;
+namespace Saber13812002\Laravel\Fulltext\Tests;
 
-use Swis\Laravel\Fulltext\Indexer;
-use Swis\Laravel\Fulltext\Tests\Fixtures\TestModel;
+use Saber13812002\Laravel\Fulltext\Indexer;
+use Saber13812002\Laravel\Fulltext\Tests\Fixtures\TestModel;
 
 class IndexerTest extends AbstractTestCase
 {

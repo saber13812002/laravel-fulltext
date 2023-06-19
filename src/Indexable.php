@@ -1,9 +1,9 @@
 <?php
 
-namespace Swis\Laravel\Fulltext;
+namespace Saber13812002\Laravel\Fulltext;
 
 /**
- * @property \Swis\Laravel\Fulltext\IndexedRecord|null $indexedRecord
+ * @property \Saber13812002\Laravel\Fulltext\IndexedRecord|null $indexedRecord
  */
 trait Indexable
 {

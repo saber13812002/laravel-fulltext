@@ -1,8 +1,8 @@
 <?php
 
-namespace Swis\Laravel\Fulltext\Tests;
+namespace Saber13812002\Laravel\Fulltext\Tests;
 
-use Swis\Laravel\Fulltext\ModelObserver;
+use Saber13812002\Laravel\Fulltext\ModelObserver;
 
 class ModelObserverTest extends AbstractTestCase
 {

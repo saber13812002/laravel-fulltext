@@ -1,6 +1,6 @@
 <?php
 
-namespace Swis\Laravel\Fulltext;
+namespace Saber13812002\Laravel\Fulltext;
 
 class ModelObserver
 {
