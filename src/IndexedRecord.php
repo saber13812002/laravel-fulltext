@@ -92,7 +92,7 @@ class IndexedRecord extends Model
         $oldPhrase = $phrase;
         $newPhrase = str_replace($remove, '', $phrase);
         $phrase = $oldPhrase == $newPhrase ? $oldPhrase : $newPhrase;
-        if ($oldPhrase == $newPhrase) {
+        if ($oldPhrase != $newPhrase) {
             $isChanged = true;
         }
 
@@ -105,7 +105,7 @@ class IndexedRecord extends Model
         $oldPhrase = $phrase;
         $newPhrase = str_replace($replace, $YehPersian, $phrase);
         $phrase = $oldPhrase == $newPhrase ? $oldPhrase : $newPhrase;
-        if ($oldPhrase == $newPhrase) {
+        if ($oldPhrase != $newPhrase) {
             $isChanged = true;
         }
 
@@ -113,7 +113,18 @@ class IndexedRecord extends Model
         $oldPhrase = $phrase;
         $newPhrase = str_replace($replace, $KafPersian, $phrase);
         $phrase = $oldPhrase == $newPhrase ? $oldPhrase : $newPhrase;
-        if ($oldPhrase == $newPhrase) {
+        if ($oldPhrase != $newPhrase) {
+            $isChanged = true;
+        }
+
+        $AlaArabic = "الأ";
+        $AlaPersian = "الا";
+
+        $replace = [$AlaArabic];
+        $oldPhrase = $phrase;
+        $newPhrase = str_replace($replace, $AlaPersian, $phrase);
+        $phrase = $oldPhrase == $newPhrase ? $oldPhrase : $newPhrase;
+        if ($oldPhrase != $newPhrase) {
             $isChanged = true;
         }
 
