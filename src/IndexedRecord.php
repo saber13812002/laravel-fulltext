@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class IndexedRecord extends Model
 {
     protected $table = 'laravel_fulltext';
-    private string $analyzer = "persian";
+    private string $analyzer = 'persian';
 
     public function __construct(array $attributes = [])
     {
@@ -33,34 +33,32 @@ class IndexedRecord extends Model
         $originalPhrase = $phrase;
 
         [$isChangedInNormalize, $phrase] = self::normalize($phrase, true);
-        $phraseIfChanged = ($isChangedInNormalize ? $phrase : "");
+        $phraseIfChanged = ($isChangedInNormalize ? $phrase : '');
 
-//        dd($phrase);
+        //        dd($phrase);
 
         [$isChangedExtraKeyword, $extraKeywords] = self::addKeywordsPhrase($originalPhrase);
-//        dd($extraKeywords);
-//        dd($phraseIfChanged);
-        $returnPhrase = "";
+        //        dd($extraKeywords);
+        //        dd($phraseIfChanged);
+        $returnPhrase = '';
 
         if ($isChangedExtraKeyword) {
-            $returnPhrase = $originalPhrase . " " . $extraKeywords . " " . $phraseIfChanged;
+            $returnPhrase = $originalPhrase.' '.$extraKeywords.' '.$phraseIfChanged;
         } else {
-            if ($originalPhrase == $phraseIfChanged)
+            if ($originalPhrase == $phraseIfChanged) {
                 $returnPhrase = $originalPhrase;
-            else
-                $returnPhrase = $originalPhrase . " " . $phraseIfChanged;
+            } else {
+                $returnPhrase = $originalPhrase.' '.$phraseIfChanged;
+            }
         }
-//        dd($returnPhrase);
+        //        dd($returnPhrase);
         return $returnPhrase;
     }
 
-
     /**
-     * @param string $phrase
-     * @param bool $needChange
      * @return array
      */
-    public static function normalize(string $phrase, $needChange = false): array
+    public static function normalize(string $phrase, bool $needChange = false)
     {
         $isChanged = false;
 
@@ -84,12 +82,12 @@ class IndexedRecord extends Model
         $HamzeJoda = 'ء';
         $KhateTire = 'ـ';
 
-        $remove = array(
+        $remove = [
             'ِ', 'ُ', 'ٓ', 'ٰ', 'ْ', 'ٌ', 'ٍ', 'ً', 'ّ', 'َ', $KhateTire, $TATWEEL,
             $FATHATAN, $DAMMATAN, $KASRATAN, $FATHA, $DAMMA, $KASRA,
             $SHADDA, $SUKUN, $Fathe, $Zamme, $Kasre, $TanvinFathe, $TanvinZamme,
-            $TanvinKasre, $Tashdid, $Sokun, $HamzeJoda
-        );
+            $TanvinKasre, $Tashdid, $Sokun, $HamzeJoda,
+        ];
 
         $oldPhrase = $phrase;
         $newPhrase = str_replace($remove, '', $phrase);
@@ -103,7 +101,7 @@ class IndexedRecord extends Model
         $KafArabic = 'ک';
         $KafPersian = 'ك';
 
-        $replace = array($YehArabic);
+        $replace = [$YehArabic];
         $oldPhrase = $phrase;
         $newPhrase = str_replace($replace, $YehPersian, $phrase);
         $phrase = $oldPhrase == $newPhrase ? $oldPhrase : $newPhrase;
@@ -111,7 +109,7 @@ class IndexedRecord extends Model
             $isChanged = true;
         }
 
-        $replace = array($KafArabic);
+        $replace = [$KafArabic];
         $oldPhrase = $phrase;
         $newPhrase = str_replace($replace, $KafPersian, $phrase);
         $phrase = $oldPhrase == $newPhrase ? $oldPhrase : $newPhrase;
@@ -119,19 +117,16 @@ class IndexedRecord extends Model
             $isChanged = true;
         }
 
-        if ($needChange)
+        if ($needChange) {
             return [$isChanged, $phrase];
+        }
+
         return $phrase;
     }
 
-
-    /**
-     * @param string $originalPhrase
-     * @return array
-     */
     public static function addKeywordsPhrase(string $originalPhrase): array
     {
-        $extraKeywords = "";
+        $extraKeywords = '';
         $isChanged = false;
 
         $HaaHavvaz = 'ه';
@@ -140,21 +135,21 @@ class IndexedRecord extends Model
 
         if (self::find($TaaTanisArabic, $originalPhrase)) {
             $isChanged = true;
-            $replace = array($TaaTanisArabic);
-            $extraKeywords .= " " . str_replace($replace, $HaaHavvaz, $originalPhrase);
-            $extraKeywords .= " " . str_replace($replace, $TaaPersian, $originalPhrase);
+            $replace = [$TaaTanisArabic];
+            $extraKeywords .= ' '.str_replace($replace, $HaaHavvaz, $originalPhrase);
+            $extraKeywords .= ' '.str_replace($replace, $TaaPersian, $originalPhrase);
         }
 
         $Alef = 'ا';
         $VavTaaTanisArabic = 'وة';
 
-//        dd($VavTaaTanisArabic, $originalPhrase, self::find($VavTaaTanisArabic, $originalPhrase));
+        //        dd($VavTaaTanisArabic, $originalPhrase, self::find($VavTaaTanisArabic, $originalPhrase));
         if (self::find($VavTaaTanisArabic, $originalPhrase)) {
             $isChanged = true;
-            $replace = array($VavTaaTanisArabic);
-            $extraKeywords .= " " . str_replace($replace, $Alef . $TaaPersian, $originalPhrase);
+            $replace = [$VavTaaTanisArabic];
+            $extraKeywords .= ' '.str_replace($replace, $Alef.$TaaPersian, $originalPhrase);
         }
-//        dd($extraKeywords);
+        //        dd($extraKeywords);
 
         $YaaAlefMaghsoore = 'یٰ';
         $AlefMaghsoore = 'ٰ';
@@ -162,14 +157,14 @@ class IndexedRecord extends Model
 
         if (self::find($YaaAlefMaghsoore, $originalPhrase)) {
             $isChanged = true;
-            $replace = array($YaaAlefMaghsoore);
-            $extraKeywords .= " " . str_replace($replace, $Alef, $originalPhrase);
+            $replace = [$YaaAlefMaghsoore];
+            $extraKeywords .= ' '.str_replace($replace, $Alef, $originalPhrase);
         }
 
         if (self::find($AlefMaghsoore, $originalPhrase)) {
             $isChanged = true;
-            $replace = array($AlefMaghsoore);
-            $extraKeywords .= " " . str_replace($replace, $Alef, $originalPhrase);
+            $replace = [$AlefMaghsoore];
+            $extraKeywords .= ' '.str_replace($replace, $Alef, $originalPhrase);
         }
 
         return [$isChanged, $extraKeywords];
@@ -177,11 +172,11 @@ class IndexedRecord extends Model
 
     public static function find($character, $phrase): bool
     {
-//        dd($character, $phrase, str_contains($character, $phrase));
+        //        dd($character, $phrase, str_contains($character, $phrase));
         if (str_contains($phrase, $character)) {
             return true;
         }
+
         return false;
     }
-
 }
