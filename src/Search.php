@@ -2,12 +2,15 @@
 
 namespace Saber13812002\Laravel\Fulltext;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+
 class Search implements SearchInterface
 {
     /**
      * @param string $search
      *
-     * @return \Illuminate\Database\Eloquent\Collection|\Saber13812002\Laravel\Fulltext\IndexedRecord[]
+     * @return Collection|\Saber13812002\Laravel\Fulltext\IndexedRecord[]
      */
     public function run($search)
     {
@@ -20,7 +23,7 @@ class Search implements SearchInterface
      * @param string $search
      * @param string $class
      *
-     * @return \Illuminate\Database\Eloquent\Collection|\Saber13812002\Laravel\Fulltext\IndexedRecord[]
+     * @return Collection|\Saber13812002\Laravel\Fulltext\IndexedRecord[]
      */
     public function runForClass($search, $class)
     {
@@ -33,7 +36,7 @@ class Search implements SearchInterface
     /**
      * @param string $search
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function searchQuery($search)
     {
@@ -43,20 +46,20 @@ class Search implements SearchInterface
         if ($search) {
             $terms = TermBuilder::terms($search);
 
-            $termsBool = '+'.$terms->implode(' +');
-            $termsMatch = ''.$terms->implode(' ');
+            $termsBool = '+' . $terms->implode(' +');
+            $termsMatch = ' ' . $terms->implode(' ');
         }
 
-        $titleWeight = str_replace(',', '.', (float) config('laravel-fulltext.weight.title', 1.5));
-        $contentWeight = str_replace(',', '.', (float) config('laravel-fulltext.weight.content', 1.0));
+        $titleWeight = str_replace(',', '.', (float)config('laravel-fulltext.weight.title', 1.5));
+        $contentWeight = str_replace(',', '.', (float)config('laravel-fulltext.weight.content', 1.0));
 
         $query = IndexedRecord::query()
-          ->whereRaw('MATCH (indexed_title, indexed_content) AGAINST (? IN BOOLEAN MODE)', [$termsBool])
-          ->orderByRaw(
-              '('.$titleWeight.' * (MATCH (indexed_title) AGAINST (?)) +
-              '.$contentWeight.' * (MATCH (indexed_title, indexed_content) AGAINST (?))
+            ->whereRaw('MATCH (indexed_title, indexed_content) AGAINST (? IN BOOLEAN MODE)', [$termsBool])
+            ->orderByRaw(
+                '(' . $titleWeight . ' * (MATCH (indexed_title) AGAINST (?)) +
+              ' . $contentWeight . ' * (MATCH (indexed_title, indexed_content) AGAINST (?))
              ) DESC',
-              [$termsMatch, $termsMatch])
+                [$termsMatch, $termsMatch])
             ->limit(config('laravel-fulltext.limit-results'));
 
         if (config('laravel-fulltext.exclude_feature_enabled')) {
