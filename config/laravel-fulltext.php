@@ -14,6 +14,8 @@ return [
 
     'limit-results' => 100,
 
+    'limit-results-page' => 10,
+
     /*
      *  Enable wildcard after words
      */
